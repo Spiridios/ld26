@@ -1,0 +1,9 @@
+syntax: glob
+bin/*
+obj/*
+*.suo
+*.csproj.*
+*proj.user
+DuncanMcCrawlJsil/jsil/
+DuncanMcCrawlJsil/Libraries/
+build_jsil.log
