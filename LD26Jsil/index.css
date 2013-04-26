@@ -1,0 +1,16 @@
+body {
+	background-color:#202020;
+	color:#FFFFFF;
+	text-align: center;
+}
+
+canvas {
+	background-color:#FF0080;
+}
+
+canvas.screenCanvas {
+	background-color:#466FAD;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
