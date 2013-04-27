@@ -13,7 +13,7 @@ namespace Spiridios.LD26
     public class PlayerBehavior : Behavior, CollisionListener
     {
         private const double WALK_SPEED = 20;
-        private const double ROTATION_SPEED = 1;
+        private const double ROTATION_SPEED = 1.5;
         private InputManager inputManager;
         private Vector2 previousPosition = Vector2.Zero;
 
@@ -33,23 +33,27 @@ namespace Spiridios.LD26
             base.Update(elapsedTime);
             previousPosition = Actor.Position;
             Vector2 p = Actor.Position;
-            if (inputManager.IsActive("walkNorth"))
+            Vector2 walkVector = Vector2.Zero;
+
+            if (inputManager.IsActive("walkForward"))
             {
-                p.Y -= (float)(WALK_SPEED * elapsedTime.TotalSeconds);
+                walkVector.Y -= (float)(WALK_SPEED * elapsedTime.TotalSeconds);
             }
-            if (inputManager.IsActive("walkSouth"))
+            if (inputManager.IsActive("walkBackward"))
             {
-                p.Y += (float)(WALK_SPEED * elapsedTime.TotalSeconds);
+                walkVector.Y += (float)(WALK_SPEED * elapsedTime.TotalSeconds);
             }
 
-            if (inputManager.IsActive("walkEast"))
+            if (inputManager.IsActive("walkRight"))
             {
-                p.X += (float)(WALK_SPEED * elapsedTime.TotalSeconds);
+                walkVector.X += (float)(WALK_SPEED * elapsedTime.TotalSeconds);
             }
-            if (inputManager.IsActive("walkWest"))
+            if (inputManager.IsActive("walkLeft"))
             {
-                p.X -= (float)(WALK_SPEED * elapsedTime.TotalSeconds);
+                walkVector.X -= (float)(WALK_SPEED * elapsedTime.TotalSeconds);
             }
+
+            p = p + Vector2Ext.Rotate(walkVector, Actor.Rotation);
 
             if (inputManager.IsActive("rotateLeft"))
             {
@@ -59,7 +63,14 @@ namespace Spiridios.LD26
             {
                 Actor.Rotation += (float)(ROTATION_SPEED * elapsedTime.TotalSeconds);
             }
-
+            if (Actor.Rotation > MathHelper.Pi)
+            {
+                Actor.Rotation -= MathHelper.TwoPi;
+            }
+            else if (Actor.Rotation < -MathHelper.Pi)
+            {
+                Actor.Rotation += MathHelper.TwoPi;
+            }
             Actor.Position = p;
         }
 

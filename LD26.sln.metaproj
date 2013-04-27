@@ -8,9 +8,9 @@
     <SDK35ToolsPath>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\</SDK35ToolsPath>
     <MSBuildToolsPath32>c:\Windows\Microsoft.NET\Framework\v4.0.30319\</MSBuildToolsPath32>
     <VCTargetsPath>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\</VCTargetsPath>
-    <Configuration>Debug</Configuration>
+    <Configuration>JSIL</Configuration>
     <Platform>x86</Platform>
-    <AspNetConfiguration>Debug</AspNetConfiguration>
+    <AspNetConfiguration>JSIL</AspNetConfiguration>
     <SolutionDir>C:\Development\gamedev\LD48\LD26\</SolutionDir>
     <SolutionExt>.sln</SolutionExt>
     <SolutionFileName>LD26.sln</SolutionFileName>
@@ -19,9 +19,9 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <CurrentSolutionConfigurationContents>
       <SolutionConfiguration xmlns="">
-  <ProjectConfiguration Project="{0280DDEF-FE36-4B45-9F3C-41A54B0EDE5C}" AbsolutePath="C:\Development\gamedev\LD48\LD26\LD26\LD26.csproj" BuildProjectInSolution="True">Debug|x86</ProjectConfiguration>
-  <ProjectConfiguration Project="{C62C4423-5FAF-4268-8EEA-F66F5B31CECA}" AbsolutePath="C:\Development\gamedev\LD48\LD26\LD26Content\LD26Content.contentproj" BuildProjectInSolution="False">Debug|x86</ProjectConfiguration>
-  <ProjectConfiguration Project="{10D64754-B0F6-41A8-AE8C-2A27B40241D7}" AbsolutePath="C:\Development\gamedev\LD48\LD26\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj" BuildProjectInSolution="True">Debug|x86</ProjectConfiguration>
+  <ProjectConfiguration Project="{0280DDEF-FE36-4B45-9F3C-41A54B0EDE5C}" AbsolutePath="C:\Development\gamedev\LD48\LD26\LD26\LD26.csproj" BuildProjectInSolution="True">Release|x86</ProjectConfiguration>
+  <ProjectConfiguration Project="{C62C4423-5FAF-4268-8EEA-F66F5B31CECA}" AbsolutePath="C:\Development\gamedev\LD48\LD26\LD26Content\LD26Content.contentproj" BuildProjectInSolution="False">Release|x86</ProjectConfiguration>
+  <ProjectConfiguration Project="{10D64754-B0F6-41A8-AE8C-2A27B40241D7}" AbsolutePath="C:\Development\gamedev\LD48\LD26\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj" BuildProjectInSolution="True">JSIL|x86</ProjectConfiguration>
 </SolutionConfiguration>
     </CurrentSolutionConfigurationContents>
   </PropertyGroup>
@@ -31,16 +31,16 @@
       <ToolsVersion>
       </ToolsVersion>
       <SkipNonexistentProjects>False</SkipNonexistentProjects>
-      <AdditionalProperties>Configuration=Debug; Platform=x86</AdditionalProperties>
-      <Configuration>Debug</Configuration>
+      <AdditionalProperties>Configuration=Release; Platform=x86</AdditionalProperties>
+      <Configuration>Release</Configuration>
       <Platform>x86</Platform>
     </ProjectReference>
     <ProjectReference Include="C:\Development\gamedev\LD48\LD26\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj">
       <ToolsVersion>
       </ToolsVersion>
       <SkipNonexistentProjects>False</SkipNonexistentProjects>
-      <AdditionalProperties>Configuration=Debug; Platform=x86</AdditionalProperties>
-      <Configuration>Debug</Configuration>
+      <AdditionalProperties>Configuration=JSIL; Platform=x86</AdditionalProperties>
+      <Configuration>JSIL</Configuration>
       <Platform>x86</Platform>
     </ProjectReference>
   </ItemGroup>
@@ -74,35 +74,35 @@
     <MSBuild Projects="@(ProjectReference)" Targets="Publish" BuildInParallel="True" Properties="BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" SkipNonexistentProjects="%(ProjectReference.SkipNonexistentProjects)" />
   </Target>
   <Target Name="LD26" Outputs="@(LD26BuildOutput)">
-    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\LD26\LD26.csproj'" Projects="@(ProjectReference)" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)">
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\LD26\LD26.csproj'" Projects="@(ProjectReference)" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Release; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)">
       <Output TaskParameter="TargetOutputs" ItemName="LD26BuildOutput" />
     </MSBuild>
   </Target>
   <Target Name="LD26:Clean">
-    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\LD26\LD26.csproj'" Projects="@(ProjectReference)" Targets="Clean" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" />
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\LD26\LD26.csproj'" Projects="@(ProjectReference)" Targets="Clean" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Release; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" />
   </Target>
   <Target Name="LD26:Rebuild" Outputs="@(LD26BuildOutput)">
-    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\LD26\LD26.csproj'" Projects="@(ProjectReference)" Targets="Rebuild" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)">
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\LD26\LD26.csproj'" Projects="@(ProjectReference)" Targets="Rebuild" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Release; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)">
       <Output TaskParameter="TargetOutputs" ItemName="LD26BuildOutput" />
     </MSBuild>
   </Target>
   <Target Name="LD26:Publish">
-    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\LD26\LD26.csproj'" Projects="@(ProjectReference)" Targets="Publish" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" />
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\LD26\LD26.csproj'" Projects="@(ProjectReference)" Targets="Publish" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Release; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" />
   </Target>
   <Target Name="SpiridiEngine" Outputs="@(SpiridiEngineBuildOutput)">
-    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj'" Projects="@(ProjectReference)" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)">
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj'" Projects="@(ProjectReference)" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=JSIL; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)">
       <Output TaskParameter="TargetOutputs" ItemName="SpiridiEngineBuildOutput" />
     </MSBuild>
   </Target>
   <Target Name="SpiridiEngine:Clean">
-    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj'" Projects="@(ProjectReference)" Targets="Clean" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" />
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj'" Projects="@(ProjectReference)" Targets="Clean" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=JSIL; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" />
   </Target>
   <Target Name="SpiridiEngine:Rebuild" Outputs="@(SpiridiEngineBuildOutput)">
-    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj'" Projects="@(ProjectReference)" Targets="Rebuild" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)">
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj'" Projects="@(ProjectReference)" Targets="Rebuild" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=JSIL; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)">
       <Output TaskParameter="TargetOutputs" ItemName="SpiridiEngineBuildOutput" />
     </MSBuild>
   </Target>
   <Target Name="SpiridiEngine:Publish">
-    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj'" Projects="@(ProjectReference)" Targets="Publish" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" />
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\Development\gamedev\LD48\LD26\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj'" Projects="@(ProjectReference)" Targets="Publish" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=JSIL; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" />
   </Target>
 </Project>

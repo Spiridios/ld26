@@ -30,7 +30,7 @@ namespace Spiridios.LD26
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            game.DrawText("Ludum Dare 26", TextRenderer.CENTERED, (game.WindowHeight - 10) / 2);
+            game.DrawText("Ludum Dare 26", TextRenderer.CENTERED, (game.WindowHeight - 100) / 2);
             game.DrawText("Press Any Key To Start", TextRenderer.CENTERED, (game.WindowHeight + 30) / 2);
             game.DrawFPS();
         }
