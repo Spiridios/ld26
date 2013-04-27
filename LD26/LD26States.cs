@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using Spiridios.SpiridiEngine;
 using Spiridios.SpiridiEngine.Input;
 using Spiridios.SpiridiEngine.Scene;
@@ -49,6 +50,8 @@ namespace Spiridios.LD26
     public class PlayGameState : State
     {
         private Scene gameMap;
+        private PlayerActor player;
+        private SoundEffect testEffect;
 
         public PlayGameState(SpiridiGame game)
             : base(game)
@@ -59,8 +62,20 @@ namespace Spiridios.LD26
         {
             base.Initialize();
 
+            this.game.ImageManager.AddImage("Player", "Player.png");
+            this.game.ImageManager.AddImage("Tileset", "Tileset.png");
+            testEffect = this.game.Content.Load<SoundEffect>("Pickup_Coin3");
+            testEffect.Play();
+
             gameMap = new Scene(game);
             gameMap.LoadTiledMap("Map.tmx");
+            gameMap.Camera.Center(new Vector2(100, 100));
+
+            player = new PlayerActor(this.inputManager);
+            player.Position = new Vector2(10, 10);
+            SceneLayer mapLayer = gameMap.GetLayer("Map");
+            mapLayer.AddActor(player);
+
         }
 
         public override void Draw(GameTime gameTime)
