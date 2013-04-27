@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Spiridios.SpiridiEngine;
 using Spiridios.SpiridiEngine.Input;
@@ -59,14 +60,22 @@ namespace Spiridios.LD26
 
     public class PlayerActor : Actor
     {
-        public PlayerActor(InputManager inputManager)
+        private AudioListener listener;
+
+        public PlayerActor(InputManager inputManager, AudioListener listener)
             : base("Player")
         {
+            this.listener = listener;
             this.Position = new Vector2(10, 10);
             PlayerBehavior pb = new PlayerBehavior(this, inputManager);
             this.SetBehavior(LifeStage.ALIVE, pb);
             this.Collidable.AddCollisionListener(pb);
         }
 
+        public override void Update(TimeSpan elapsedTime)
+        {
+            base.Update(elapsedTime);
+            listener.Position = new Vector3(this.Position, 1);
+        }
     }
 }
