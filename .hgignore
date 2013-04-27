@@ -4,6 +4,6 @@ obj/*
 *.suo
 *.csproj.*
 *proj.user
-DuncanMcCrawlJsil/jsil/
-DuncanMcCrawlJsil/Libraries/
+LD26Jsil/jsil/
+LD26Jsil/Libraries/
 build_jsil.log
