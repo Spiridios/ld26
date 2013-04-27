@@ -5,6 +5,7 @@
  </tileset>
  <layer name="Map" width="20" height="20">
   <properties>
+   <property name="CollisionLayer" value="Map"/>
    <property name="Visible" value="true"/>
   </properties>
   <data encoding="base64">
