@@ -107,15 +107,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LD26States.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="LD26.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\SpiridiEngine\SpiridiEngine\SpiridiEngine.csproj">
+      <Project>{10D64754-B0F6-41A8-AE8C-2A27B40241D7}</Project>
+      <Name>SpiridiEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LD26Content\LD26Content.contentproj">
       <Name>LD26Content</Name>
       <XnaReferenceType>Content</XnaReferenceType>

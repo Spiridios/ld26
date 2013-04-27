@@ -1,6 +1,6 @@
 using System;
 
-namespace LD26
+namespace Spiridios.LD26
 {
 #if WINDOWS || XBOX
     static class Program
@@ -10,7 +10,7 @@ namespace LD26
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (LD26 game = new LD26())
             {
                 game.Run();
             }
