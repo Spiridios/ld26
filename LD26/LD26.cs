@@ -24,7 +24,7 @@ namespace Spiridios.LD26
             this.NextState = new BootState(this, new TitleState(this));
             this.ClearColor = new Color(0, 0, 0);
             this.IsQuickExit = true;
-            this.ShowFPS = false;
+            this.ShowFPS = true;
         }
 
         /// <summary>
@@ -38,10 +38,10 @@ namespace Spiridios.LD26
             base.Initialize();
 
             // Register key-bindings
-            this.InputManager.RegisterActionBinding("walkNorth", Keys.W);
-            this.InputManager.RegisterActionBinding("walkWest", Keys.A);
-            this.InputManager.RegisterActionBinding("walkSouth", Keys.S);
-            this.InputManager.RegisterActionBinding("walkEast", Keys.D);
+            this.InputManager.RegisterActionBinding("walkForward", Keys.W);
+            this.InputManager.RegisterActionBinding("walkLeft", Keys.A);
+            this.InputManager.RegisterActionBinding("walkBackward", Keys.S);
+            this.InputManager.RegisterActionBinding("walkRight", Keys.D);
 
             this.InputManager.RegisterActionBinding("rotateLeft", Keys.Left);
             this.InputManager.RegisterActionBinding("rotateRight", Keys.Right);
