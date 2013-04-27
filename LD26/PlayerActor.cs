@@ -11,7 +11,8 @@ namespace Spiridios.LD26
 {
     public class PlayerBehavior : Behavior, CollisionListener
     {
-        private const double WALK_SPEED = 10;
+        private const double WALK_SPEED = 20;
+        private const double ROTATION_SPEED = 1;
         private InputManager inputManager;
         private Vector2 previousPosition = Vector2.Zero;
 
@@ -49,6 +50,15 @@ namespace Spiridios.LD26
                 p.X -= (float)(WALK_SPEED * elapsedTime.TotalSeconds);
             }
 
+            if (inputManager.IsActive("rotateLeft"))
+            {
+                Actor.Rotation -= (float)(ROTATION_SPEED * elapsedTime.TotalSeconds);
+            }
+            if (inputManager.IsActive("rotateRight"))
+            {
+                Actor.Rotation += (float)(ROTATION_SPEED * elapsedTime.TotalSeconds);
+            }
+
             Actor.Position = p;
         }
 
@@ -61,11 +71,14 @@ namespace Spiridios.LD26
     public class PlayerActor : Actor
     {
         private AudioListener listener;
+        private readonly Vector2 FORWARD = new Vector2(0, 1);
+        private readonly Vector3 UP = new Vector3(0, 0, 1);
 
         public PlayerActor(InputManager inputManager, AudioListener listener)
             : base("Player")
         {
             this.listener = listener;
+            listener.Up = UP;
             this.Position = new Vector2(10, 10);
             PlayerBehavior pb = new PlayerBehavior(this, inputManager);
             this.SetBehavior(LifeStage.ALIVE, pb);
@@ -76,6 +89,8 @@ namespace Spiridios.LD26
         {
             base.Update(elapsedTime);
             listener.Position = new Vector3(this.Position, 1);
+            listener.Forward = new Vector3(Vector2Ext.Rotate(FORWARD, this.Rotation), 0);
+
         }
     }
 }
