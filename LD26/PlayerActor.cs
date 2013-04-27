@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Spiridios.SpiridiEngine;
+using Spiridios.SpiridiEngine.Audio;
 using Spiridios.SpiridiEngine.Input;
 using Spiridios.SpiridiEngine.Physics;
 
@@ -70,15 +71,12 @@ namespace Spiridios.LD26
 
     public class PlayerActor : Actor
     {
-        private AudioListener listener;
-        private readonly Vector2 FORWARD = new Vector2(0, 1);
-        private readonly Vector3 UP = new Vector3(0, 0, 1);
+        private PositionedSound listener;
 
-        public PlayerActor(InputManager inputManager, AudioListener listener)
+        public PlayerActor(InputManager inputManager, PositionedSound listener)
             : base("Player")
         {
             this.listener = listener;
-            listener.Up = UP;
             this.Position = new Vector2(10, 10);
             PlayerBehavior pb = new PlayerBehavior(this, inputManager);
             this.SetBehavior(LifeStage.ALIVE, pb);
@@ -88,9 +86,6 @@ namespace Spiridios.LD26
         public override void Update(TimeSpan elapsedTime)
         {
             base.Update(elapsedTime);
-            listener.Position = new Vector3(this.Position, 1);
-            listener.Forward = new Vector3(Vector2Ext.Rotate(FORWARD, this.Rotation), 0);
-
         }
     }
 }

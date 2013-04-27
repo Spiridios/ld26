@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using Spiridios.SpiridiEngine;
+using Spiridios.SpiridiEngine.Audio;
 using Spiridios.SpiridiEngine.Input;
 using Spiridios.SpiridiEngine.Scene;
 using System;
@@ -52,9 +53,7 @@ namespace Spiridios.LD26
         private Scene gameMap;
         private PlayerActor player;
         private SoundEffect testEffect;
-        private SoundEffectInstance soundEffectInstance;
-        private AudioEmitter emitter;
-        private AudioListener listener;
+        private PositionedSound positionedEffect;
 
         public PlayGameState(SpiridiGame game)
             : base(game)
@@ -67,32 +66,31 @@ namespace Spiridios.LD26
 
             this.game.ImageManager.AddImage("Player", "Player.png");
             this.game.ImageManager.AddImage("Tileset", "Tileset.png");
-
-            emitter = new AudioEmitter();
-            listener = new AudioListener();
+            this.game.ImageManager.AddImage("Sound", "Sound.png");
 
             testEffect = this.game.Content.Load<SoundEffect>("Pickup_Coin3");
-            soundEffectInstance = testEffect.CreateInstance();
-            soundEffectInstance.IsLooped = true;
-            soundEffectInstance.Apply3D(listener, emitter);
-            soundEffectInstance.Play();
-            emitter.Position = new Vector3(100,100,1);
+            this.positionedEffect = new PositionedSound(testEffect);
+            this.positionedEffect.Position = new Vector2(100,100);
+            this.positionedEffect.DebugImage = new Image("Sound");
 
             gameMap = new Scene(game);
             gameMap.LoadTiledMap("Map.tmx");
             gameMap.Camera.Center(new Vector2(100, 100));
+            this.positionedEffect.Camera = gameMap.Camera;
 
-            player = new PlayerActor(this.inputManager, listener);
+            player = new PlayerActor(this.inputManager, positionedEffect);
             player.Position = new Vector2(10, 10);
             SceneLayer mapLayer = gameMap.GetLayer("Map");
             mapLayer.AddActor(player);
-
+            positionedEffect.Listener = player;
+            positionedEffect.PlayLooped();
         }
 
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
             gameMap.Draw(game.SpriteBatch);
+            positionedEffect.Draw(game.SpriteBatch);
             game.DrawFPS();
         }
 
@@ -100,7 +98,7 @@ namespace Spiridios.LD26
         {
             base.Update(gameTime);
             gameMap.Update(gameTime.ElapsedGameTime);
-            soundEffectInstance.Apply3D(listener, emitter);
+            positionedEffect.Update(gameTime.ElapsedGameTime);
         }
 
     }
