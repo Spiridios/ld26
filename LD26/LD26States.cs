@@ -52,6 +52,9 @@ namespace Spiridios.LD26
         private Scene gameMap;
         private PlayerActor player;
         private SoundEffect testEffect;
+        private SoundEffectInstance soundEffectInstance;
+        private AudioEmitter emitter;
+        private AudioListener listener;
 
         public PlayGameState(SpiridiGame game)
             : base(game)
@@ -64,14 +67,22 @@ namespace Spiridios.LD26
 
             this.game.ImageManager.AddImage("Player", "Player.png");
             this.game.ImageManager.AddImage("Tileset", "Tileset.png");
+
+            emitter = new AudioEmitter();
+            listener = new AudioListener();
+
             testEffect = this.game.Content.Load<SoundEffect>("Pickup_Coin3");
-            testEffect.Play();
+            soundEffectInstance = testEffect.CreateInstance();
+            soundEffectInstance.IsLooped = true;
+            soundEffectInstance.Apply3D(listener, emitter);
+            soundEffectInstance.Play();
+            emitter.Position = new Vector3(100,100,1);
 
             gameMap = new Scene(game);
             gameMap.LoadTiledMap("Map.tmx");
             gameMap.Camera.Center(new Vector2(100, 100));
 
-            player = new PlayerActor(this.inputManager);
+            player = new PlayerActor(this.inputManager, listener);
             player.Position = new Vector2(10, 10);
             SceneLayer mapLayer = gameMap.GetLayer("Map");
             mapLayer.AddActor(player);
@@ -89,6 +100,7 @@ namespace Spiridios.LD26
         {
             base.Update(gameTime);
             gameMap.Update(gameTime.ElapsedGameTime);
+            soundEffectInstance.Apply3D(listener, emitter);
         }
 
     }
