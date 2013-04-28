@@ -30,8 +30,13 @@ namespace Spiridios.LD26
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            game.DrawText("Ludum Dare 26", TextRenderer.CENTERED, (game.WindowHeight - 100) / 2);
-            game.DrawText("Press Any Key To Start", TextRenderer.CENTERED, (game.WindowHeight + 30) / 2);
+
+            int lineHeight = 40;
+            int numLines = 4;
+            int firstLine = (game.WindowHeight - (numLines * lineHeight)) / 2;
+            game.DrawText("Conversion", TextRenderer.CENTERED, firstLine);
+            game.DrawText("By Spiridios for Ludum Dare 26", TextRenderer.CENTERED, firstLine + (1 * lineHeight));
+            game.DrawText("Press Any Key To Start", TextRenderer.CENTERED, firstLine + (3 * lineHeight));
             game.DrawFPS();
         }
 
@@ -68,15 +73,17 @@ namespace Spiridios.LD26
             this.game.ImageManager.AddImage("Tileset", "Tileset.png");
             this.game.ImageManager.AddImage("Sound", "Sound.png");
 
-            testEffect = this.game.Content.Load<SoundEffect>("Pickup_Coin3");
+            testEffect = this.game.Content.Load<SoundEffect>("drip");
             this.positionedEffect = new PositionedSound(testEffect);
             this.positionedEffect.Position = new Vector2(100,100);
             this.positionedEffect.DebugImage = new Image("Sound");
+            this.positionedEffect.AttenuationFactor = 0.1f;
 
             gameMap = new Scene(game);
             gameMap.LoadTiledMap("Map.tmx");
             gameMap.Camera.Center(new Vector2(100, 100));
             this.positionedEffect.Camera = gameMap.Camera;
+
 
             player = new PlayerActor(this.inputManager, positionedEffect);
             player.Position = new Vector2(10, 10);
@@ -90,13 +97,15 @@ namespace Spiridios.LD26
         {
             base.Draw(gameTime);
             gameMap.Draw(game.SpriteBatch);
-            positionedEffect.Draw(game.SpriteBatch);
+            //positionedEffect.Draw(game.SpriteBatch);
+            ((LD26)this.game).DrawMessage();
             game.DrawFPS();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            ((LD26)this.game).LastGameTime = gameTime;
             gameMap.Update(gameTime.ElapsedGameTime);
             positionedEffect.Update(gameTime.ElapsedGameTime);
         }

@@ -56,6 +56,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageFont.spritefont">
+      <Name>MessageFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="Map.tmx">
       <Name>Map</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -69,17 +74,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pickup_Coin3.wav">
-      <Name>Pickup_Coin3</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Sound.png">
       <Name>Sound</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="drip.wav">
+      <Name>drip</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
