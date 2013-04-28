@@ -34,6 +34,16 @@ namespace Spiridios.LD26
         private PositionedSound positionedEffect;
         private string message;
 
+        public static SoundActor CreateActor(LevelData levelData, SceneLayer mapLayer, PlayerActor player)
+        {
+            SoundActor sa = new SoundActor(levelData.soundName, levelData.message);
+            sa.Position = levelData.position;
+            mapLayer.AddActor(sa);
+            sa.Sound.Listener = player;
+
+            return sa;
+        }
+
         public SoundActor(String sound, string message)
             : base("Sound")
         {
@@ -53,7 +63,15 @@ namespace Spiridios.LD26
             get { return message; }
             set { message = value; }
         }
-        
+
+        /// <summary>
+        /// The generic "player is trying to interact with us" method.
+        /// </summary>
+        public void DoStuff()
+        {
+            lifeStage = Actor.LifeStage.DEAD;
+        }
+
         public override void Update(TimeSpan elapsedTime)
         {
             base.Update(elapsedTime);
@@ -93,5 +111,23 @@ namespace Spiridios.LD26
                 }
             }
         }
+    }
+
+    public class LevelData
+    {
+        public LevelData(string soundName, Vector2 position, string message, string action, LevelData triggers)
+        {
+            this.soundName = soundName;
+            this.position = position;
+            this.message = message;
+            this.action = action;
+            this.triggers = triggers;
+        }
+
+        internal string soundName;
+        internal Vector2 position;
+        internal string message;
+        internal string action;
+        internal LevelData triggers;
     }
 }

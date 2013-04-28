@@ -54,22 +54,6 @@ namespace Spiridios.LD26
         }
     }
 
-    class LevelData
-    {
-        internal LevelData(string soundName, Vector2 position, string message, LevelData triggers)
-        {
-            this.soundName = soundName;
-            this.position = position;
-            this.message = message;
-            this.triggers = triggers;
-        }
-
-        internal string soundName;
-        internal Vector2 position;
-        internal string message;
-        internal LevelData triggers;
-    }
-
     public class PlayGameState : State
     {
         private Scene gameMap;
@@ -104,15 +88,11 @@ namespace Spiridios.LD26
 
         private void SetupLevelData(SceneLayer mapLayer)
         {
-            levelData.Add(new LevelData("drip", new Vector2(100, 100), "You feel a cold wet metal pipe with a knob", null));
+            levelData.Add(new LevelData("drip", new Vector2(100, 100), "You feel a cold wet metal pipe with a knob", "You turn the knob", null));
 
             foreach (LevelData levelItem in levelData)
             {
-                SoundActor sa = new SoundActor(levelItem.soundName, levelItem.message);
-                sa.Position = levelItem.position;
-                mapLayer.AddActor(sa);
-                sa.Sound.Listener = player;
-
+                SoundActor sa = SoundActor.CreateActor(levelItem, mapLayer, player);
                 // TODO: will this work?
                 sa.Sound.PlayLooped();
             }

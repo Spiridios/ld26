@@ -77,7 +77,7 @@ namespace Spiridios.LD26
             {
                 if (collidabe.Tag == TileMapLayer.COLLIDABLE_TAG)
                 {
-                    ((LD26)SpiridiGame.Instance).DisplayMessage("You feel a wall and stop moving");
+                    LD26.DisplayMessage("You feel a wall and stop moving");
                     Actor.Position = previousPosition;
                 }
                 else if (collidabe.Tag == Actor.COLLIDABLE_TAG)
@@ -86,16 +86,20 @@ namespace Spiridios.LD26
                     string message = sa.Message;
                     if (!String.IsNullOrWhiteSpace(message))
                     {
-                        ((LD26)SpiridiGame.Instance).DisplayMessage(sa.Message);
+                        LD26.DisplayMessage(sa.Message);
                     }
                     else
                     {
-                        ((LD26)SpiridiGame.Instance).DisplayMessage("You bump into something strange");
+                        LD26.DisplayMessage("You bump into something strange");
+                    }
+                    if (inputManager.IsActive("doStuff"))
+                    {
+                        sa.DoStuff();
                     }
                 }
                 else
                 {
-                    ((LD26)SpiridiGame.Instance).DisplayMessage("You feel something strange under your feet");
+                    LD26.DisplayMessage("You feel something strange under your feet");
                 }
 
             }

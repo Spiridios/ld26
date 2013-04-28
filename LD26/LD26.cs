@@ -41,10 +41,11 @@ namespace Spiridios.LD26
             this.ShowFPS = false;
         }
 
-        public void DisplayMessage(string message)
+        public static void DisplayMessage(string message)
         {
-            this.message = message;
-            this.messageDisplayed = this.lastGameTime.TotalGameTime.TotalSeconds;
+            LD26 instance = (LD26)SpiridiGame.Instance;
+            instance.message = message;
+            instance.messageDisplayed = instance.lastGameTime.TotalGameTime.TotalSeconds;
 
         }
 
