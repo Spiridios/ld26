@@ -112,6 +112,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="LD26.cs" />
+    <Compile Include="SoundActor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="eidolonworld_icon.ico" />

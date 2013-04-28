@@ -6,6 +6,7 @@ using Spiridios.SpiridiEngine.Audio;
 using Spiridios.SpiridiEngine.Input;
 using Spiridios.SpiridiEngine.Scene;
 using System;
+using System.Collections.Generic;
 
 namespace Spiridios.LD26
 {
@@ -53,12 +54,27 @@ namespace Spiridios.LD26
         }
     }
 
+    class LevelData
+    {
+        internal LevelData(string soundName, Vector2 position, string message, LevelData triggers)
+        {
+            this.soundName = soundName;
+            this.position = position;
+            this.message = message;
+            this.triggers = triggers;
+        }
+
+        internal string soundName;
+        internal Vector2 position;
+        internal string message;
+        internal LevelData triggers;
+    }
+
     public class PlayGameState : State
     {
         private Scene gameMap;
         private PlayerActor player;
-        private SoundEffect testEffect;
-        private PositionedSound positionedEffect;
+        private List<LevelData> levelData = new List<LevelData>();
 
         public PlayGameState(SpiridiGame game)
             : base(game)
@@ -69,35 +85,44 @@ namespace Spiridios.LD26
         {
             base.Initialize();
 
+            // Load any continents 
             this.game.ImageManager.AddImage("Player", "Player.png");
             this.game.ImageManager.AddImage("Tileset", "Tileset.png");
             this.game.ImageManager.AddImage("Sound", "Sound.png");
 
-            testEffect = this.game.Content.Load<SoundEffect>("drip");
-            this.positionedEffect = new PositionedSound(testEffect);
-            this.positionedEffect.Position = new Vector2(100,100);
-            this.positionedEffect.DebugImage = new Image("Sound");
-            this.positionedEffect.AttenuationFactor = 0.1f;
-
             gameMap = new Scene(game);
             gameMap.LoadTiledMap("Map.tmx");
             gameMap.Camera.Center(new Vector2(100, 100));
-            this.positionedEffect.Camera = gameMap.Camera;
-
-
-            player = new PlayerActor(this.inputManager, positionedEffect);
-            player.Position = new Vector2(10, 10);
             SceneLayer mapLayer = gameMap.GetLayer("Map");
+
+            player = new PlayerActor(this.inputManager);
+            player.Position = new Vector2(10, 10);
             mapLayer.AddActor(player);
-            positionedEffect.Listener = player;
-            positionedEffect.PlayLooped();
+
+            SetupLevelData(mapLayer);
+        }
+
+        private void SetupLevelData(SceneLayer mapLayer)
+        {
+            levelData.Add(new LevelData("drip", new Vector2(100, 100), "You feel a cold wet metal pipe with a knob", null));
+
+            foreach (LevelData levelItem in levelData)
+            {
+                SoundActor sa = new SoundActor(levelItem.soundName, levelItem.message);
+                sa.Position = levelItem.position;
+                mapLayer.AddActor(sa);
+                sa.Sound.Listener = player;
+
+                // TODO: will this work?
+                sa.Sound.PlayLooped();
+            }
+
         }
 
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
             gameMap.Draw(game.SpriteBatch);
-            //positionedEffect.Draw(game.SpriteBatch);
             ((LD26)this.game).DrawMessage();
             game.DrawFPS();
         }
@@ -107,7 +132,6 @@ namespace Spiridios.LD26
             base.Update(gameTime);
             ((LD26)this.game).LastGameTime = gameTime;
             gameMap.Update(gameTime.ElapsedGameTime);
-            positionedEffect.Update(gameTime.ElapsedGameTime);
         }
 
     }
