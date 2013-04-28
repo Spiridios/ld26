@@ -32,11 +32,12 @@ namespace Spiridios.LD26
     {
         private SoundEffect testEffect;
         private PositionedSound positionedEffect;
+        private string message;
 
         public SoundActor(String sound, string message)
             : base("Sound")
         {
-            this.Collidable.Tag = message;
+            this.message = message;
             testEffect = SpiridiGame.Instance.Content.Load<SoundEffect>("drip");
             this.positionedEffect = new PositionedSound(testEffect);
             this.positionedEffect.AttenuationFactor = 0.1f;
@@ -47,6 +48,12 @@ namespace Spiridios.LD26
             this.Collidable.AddCollisionListener(pb);
         }
 
+        public string Message
+        {
+            get { return message; }
+            set { message = value; }
+        }
+        
         public override void Update(TimeSpan elapsedTime)
         {
             base.Update(elapsedTime);

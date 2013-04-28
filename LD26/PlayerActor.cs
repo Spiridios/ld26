@@ -75,16 +75,22 @@ namespace Spiridios.LD26
         {
             foreach (Collidable collidabe in activeCollidables)
             {
-                if (!String.IsNullOrWhiteSpace(collidabe.Tag))
+                if (collidabe.Tag == TileMapLayer.COLLIDABLE_TAG)
                 {
-                    if (collidabe.Tag == TileMapLayer.COLLIDABLE_TAG)
+                    ((LD26)SpiridiGame.Instance).DisplayMessage("You feel a wall and stop moving");
+                    Actor.Position = previousPosition;
+                }
+                else if (collidabe.Tag == Actor.COLLIDABLE_TAG)
+                {
+                    SoundActor sa = (SoundActor)collidabe.Owner;
+                    string message = sa.Message;
+                    if (!String.IsNullOrWhiteSpace(message))
                     {
-                        ((LD26)SpiridiGame.Instance).DisplayMessage("You feel a wall and stop moving");
-                        Actor.Position = previousPosition;
+                        ((LD26)SpiridiGame.Instance).DisplayMessage(sa.Message);
                     }
                     else
                     {
-                        ((LD26)SpiridiGame.Instance).DisplayMessage(collidabe.Tag);
+                        ((LD26)SpiridiGame.Instance).DisplayMessage("You bump into something strange");
                     }
                 }
                 else
