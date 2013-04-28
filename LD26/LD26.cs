@@ -72,15 +72,15 @@ namespace Spiridios.LD26
 
             // Register key-bindings
             //this.InputManager.RegisterActionBinding("walkForward", Keys.W);
-            this.InputManager.RegisterActionBinding("walkLeft", Keys.A);
+            //this.InputManager.RegisterActionBinding("walkLeft", Keys.A);
             //this.InputManager.RegisterActionBinding("walkBackward", Keys.S);
-            this.InputManager.RegisterActionBinding("walkRight", Keys.D);
+            //this.InputManager.RegisterActionBinding("walkRight", Keys.D);
 
             this.InputManager.RegisterActionBinding("walkForward", Keys.Up);
             this.InputManager.RegisterActionBinding("walkBackward", Keys.Down);
             this.InputManager.RegisterActionBinding("rotateLeft", Keys.Left);
             this.InputManager.RegisterActionBinding("rotateRight", Keys.Right);
-
+            this.InputManager.RegisterActionBinding("doStuff", Keys.Space);
         }
 
         /// <summary>

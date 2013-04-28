@@ -18,10 +18,6 @@ namespace Spiridios.LD26
         private InputManager inputManager;
         private Vector2 previousPosition = Vector2.Zero;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="enemies">Reference to the enemies list.</param>
         public PlayerBehavior(Actor actor, InputManager inputManager)
             : base(actor)
         {
@@ -79,10 +75,17 @@ namespace Spiridios.LD26
         {
             foreach (Collidable collidabe in activeCollidables)
             {
-                if (collidabe.Tag == TileMapLayer.COLLIDABLE_TAG)
+                if (!String.IsNullOrWhiteSpace(collidabe.Tag))
                 {
-                    ((LD26)SpiridiGame.Instance).DisplayMessage("You feel a wall and stop moving");
-                    Actor.Position = previousPosition;
+                    if (collidabe.Tag == TileMapLayer.COLLIDABLE_TAG)
+                    {
+                        ((LD26)SpiridiGame.Instance).DisplayMessage("You feel a wall and stop moving");
+                        Actor.Position = previousPosition;
+                    }
+                    else
+                    {
+                        ((LD26)SpiridiGame.Instance).DisplayMessage(collidabe.Tag);
+                    }
                 }
                 else
                 {
@@ -95,12 +98,9 @@ namespace Spiridios.LD26
 
     public class PlayerActor : Actor
     {
-        private PositionedSound listener;
-
-        public PlayerActor(InputManager inputManager, PositionedSound listener)
+        public PlayerActor(InputManager inputManager)
             : base("Player")
         {
-            this.listener = listener;
             this.Position = new Vector2(10, 10);
             PlayerBehavior pb = new PlayerBehavior(this, inputManager);
             this.SetBehavior(LifeStage.ALIVE, pb);
