@@ -7,6 +7,7 @@ using Spiridios.SpiridiEngine;
 using Spiridios.SpiridiEngine.Audio;
 using Spiridios.SpiridiEngine.Input;
 using Spiridios.SpiridiEngine.Physics;
+using Spiridios.SpiridiEngine.Scene;
 
 namespace Spiridios.LD26
 {
@@ -76,7 +77,19 @@ namespace Spiridios.LD26
 
         public void OnCollided(List<Collidable> activeCollidables)
         {
-            Actor.Position = previousPosition;
+            foreach (Collidable collidabe in activeCollidables)
+            {
+                if (collidabe.Tag == TileMapLayer.COLLIDABLE_TAG)
+                {
+                    ((LD26)SpiridiGame.Instance).DisplayMessage("You feel a wall and stop moving");
+                    Actor.Position = previousPosition;
+                }
+                else
+                {
+                    ((LD26)SpiridiGame.Instance).DisplayMessage("You feel something strange under your feet");
+                }
+
+            }
         }
     }
 
