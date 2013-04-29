@@ -11,6 +11,21 @@ using Spiridios.SpiridiEngine.Scene;
 
 namespace Spiridios.LD26
 {
+    public class PlayerDyingBehavior : Behavior
+    {
+        public PlayerDyingBehavior(Actor actor)
+            : base(actor)
+        {
+        }
+
+        public override void Update(System.TimeSpan elapsedTime)
+        {
+            base.Update(elapsedTime);
+            SoundManager.Instance.PlaySound("gunshot");
+            Actor.lifeStage = Actor.LifeStage.DEAD;
+        }
+    }
+
     public class PlayerBehavior : Behavior, CollisionListener
     {
         private const double WALK_SPEED = 20;
@@ -31,12 +46,21 @@ namespace Spiridios.LD26
 
             if (((PlayerActor)Actor).HasGun && ((PlayerActor)Actor).WantToShoot)
             {
-                SoundManager.Instance.PlaySound("gunshot");
+
+                Vector2 vel = Vector2Ext.Rotate(new Vector2(0, -100), Actor.Rotation);
+
+                Actor bullet = BulletBehavior.CreateBullet("Bullet", this.Actor.Position, vel, "gunshot", SpiridiGame.Instance);
+                ((PlayerActor)Actor).MapLayer.AddActor(bullet);
 
                 ((PlayerActor)Actor).WantToShoot = false;
                 ((PlayerActor)Actor).ClipCount--;
+
+                if (((PlayerActor)Actor).ClipCount < 0)
+                {
+                    Actor.lifeStage = Actor.LifeStage.DYING;
+                }
             }
-            else if (((PlayerActor)Actor).HasGun && inputManager.IsActive("doStuff"))
+            else if (((PlayerActor)Actor).HasGun && inputManager.IsTriggered("doStuff"))
             {
                 ((PlayerActor)Actor).WantToShoot = true;
             }
@@ -107,7 +131,7 @@ namespace Spiridios.LD26
                         LD26.DisplayMessage("You bump into something strange");
                     }
 
-                    if (inputManager.IsActive("doStuff"))
+                    if (inputManager.IsTriggered("doStuff"))
                     {
                         bool didStuff = sa.DoStuff();
                         if (didStuff && ((PlayerActor)Actor).WantToShoot)
@@ -121,11 +145,10 @@ namespace Spiridios.LD26
                         }
 
                     }
-
                 }
                 else
                 {
-                    LD26.DisplayMessage("You feel something strange under your feet");
+                    //LD26.DisplayMessage("You feel something strange under your feet");
                 }
 
             }
@@ -137,10 +160,12 @@ namespace Spiridios.LD26
         public bool HasGun { get; set; }
         public bool WantToShoot { get; set; }
         public int ClipCount { get; set; }
+        public SceneLayer MapLayer { get; set; }
 
-        public PlayerActor(InputManager inputManager)
+        public PlayerActor(InputManager inputManager, SceneLayer mapLayer)
             : base("Player")
         {
+            this.MapLayer = mapLayer;
             this.HasGun = false;
             this.WantToShoot = false;
             this.ClipCount = 4;
@@ -148,6 +173,9 @@ namespace Spiridios.LD26
             PlayerBehavior pb = new PlayerBehavior(this, inputManager);
             this.SetBehavior(LifeStage.ALIVE, pb);
             this.Collidable.AddCollisionListener(pb);
+
+            this.SetBehavior(LifeStage.DYING, new PlayerDyingBehavior(this));
+
         }
 
         public override void Update(TimeSpan elapsedTime)

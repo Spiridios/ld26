@@ -22,6 +22,7 @@ namespace Spiridios.LD26
         private double messageDisplayed;
         private const double messageDisplayTime = 2.0;
         private GameTime lastGameTime = null;
+        public bool IntruderDead { get; set; }
 
 
 

@@ -90,6 +90,36 @@ namespace Spiridios.LD26
         }
     }
 
+    public class IntruderSoundBehavior : SoundBehavior
+    {
+        public IntruderSoundBehavior(Actor actor, SoundEventData eventInfo)
+            : base(actor, eventInfo)
+        {
+        }
+
+        public override void Update(System.TimeSpan elapsedTime)
+        {
+            base.Update(elapsedTime);
+        }
+
+        public override void OnCollided(List<Collidable> activeCollidables)
+        {
+            base.OnCollided(activeCollidables);
+            if (eventInfo.repeat)
+            {
+                ((SoundActor)this.Actor).Sound.Stop();
+            }
+            this.Actor.lifeStage = Actor.LifeStage.DYING;
+            foreach (Collidable collidable in activeCollidables)
+            {
+                if (collidable.Tag == BulletBehavior.COLLIDABLE_TAG)
+                {
+                    ((LD26)SpiridiGame.Instance).IntruderDead = true;
+                }
+            }
+        }
+    }
+
     public class SoundActor : Actor
     {
         private SoundEffect testEffect;
@@ -114,6 +144,12 @@ namespace Spiridios.LD26
             else if (soundEvent.eventType == SoundEventData.EventType.Collision)
             {
                 CollisionSoundBehavior pb = new CollisionSoundBehavior(sa, soundEvent);
+                sa.SetBehavior(LifeStage.ALIVE, pb);
+                sa.Collidable.AddCollisionListener(pb);
+            }
+            else if (soundEvent.eventType == SoundEventData.EventType.Intruder)
+            {
+                IntruderSoundBehavior pb = new IntruderSoundBehavior(sa, soundEvent);
                 sa.SetBehavior(LifeStage.ALIVE, pb);
                 sa.Collidable.AddCollisionListener(pb);
             }
