@@ -58,7 +58,7 @@ namespace Spiridios.LD26
     {
         private Scene gameMap;
         private PlayerActor player;
-        private List<LevelData> levelData = new List<LevelData>();
+        private List<SoundEventData> levelData = new List<SoundEventData>();
 
         public PlayGameState(SpiridiGame game)
             : base(game)
@@ -73,28 +73,72 @@ namespace Spiridios.LD26
             this.game.ImageManager.AddImage("Player", "Player.png");
             this.game.ImageManager.AddImage("Tileset", "Tileset.png");
             this.game.ImageManager.AddImage("Sound", "Sound.png");
+            SoundManager.Instance.AddSound("gunshot", "gunshot.wav");
 
             gameMap = new Scene(game);
             gameMap.LoadTiledMap("Map.tmx");
             gameMap.Camera.Center(new Vector2(100, 100));
             SceneLayer mapLayer = gameMap.GetLayer("Map");
 
-            player = new PlayerActor(this.inputManager);
-            player.Position = new Vector2(10, 10);
-            mapLayer.AddActor(player);
-
             SetupLevelData(mapLayer);
         }
 
         private void SetupLevelData(SceneLayer mapLayer)
         {
-            levelData.Add(new LevelData("drip", new Vector2(100, 100), "You feel a cold wet metal pipe with a knob", "You turn the knob", null));
+            player = new PlayerActor(this.inputManager);
+            player.Position = new Vector2(20, 20);
+            mapLayer.AddActor(player);
 
-            foreach (LevelData levelItem in levelData)
+            levelData.Add(new SoundEventData(mapLayer, player, "gunshot", new Vector2(20, 20)).SetMessage("You feel no pain, but you can no longer see").SetRepeat(false));
+
+            SoundEventData shuffleLoop =
+            new SoundEventData(mapLayer, player, "shuffle", new Vector2(120, 160))
+            .SetRepeat(false)
+            .SetEventType(SoundEventData.EventType.OneShot);
+
+            shuffleLoop.AddNextEvent(
+            new SoundEventData(mapLayer, player, "breathing", new Vector2(90, 10))
+            .SetEventType(SoundEventData.EventType.Collision)
+            .AddNextEvent(
+            new SoundEventData(mapLayer, player, "shuffle", new Vector2(60, 40))
+            .SetRepeat(false)
+            .SetEventType(SoundEventData.EventType.OneShot)
+            .AddNextEvent(
+            new SoundEventData(mapLayer, player, "breathing", new Vector2(10, 180))
+            .SetEventType(SoundEventData.EventType.Collision)
+            .AddNextEvent(shuffleLoop)
+            )));
+
+            levelData.Add(
+
+            new SoundEventData(mapLayer, player, "drip", new Vector2(10, 100))
+            .SetMessage("You feel a cold wet metal pipe with a knob")
+            .SetEventType(SoundEventData.EventType.Activate)
+            .AddNextEvent(
+
+            new SoundEventData(mapLayer, player, "valve", new Vector2(10, 100))
+            .SetRepeat(false)
+            .SetMessage("You turn the knob")
+            .AddNextEvent(
+            
+            new SoundEventData(mapLayer, player, "keys", new Vector2(100,180))
+            .AddNextEvent(shuffleLoop
+
+
+            )
+            .AddNextEvent(
+            new SoundEventData(mapLayer, player, "drop", new Vector2(100, 180))
+            .SetMessage("Something heavy landed near your feet")
+            .SetRepeat(false)
+            .SetEventType(SoundEventData.EventType.Activate)
+            .SetActionMessage("You pick up a small gun")
+            .SetIsGun(true)
+
+            ))));
+
+            foreach (SoundEventData levelItem in levelData)
             {
-                SoundActor sa = SoundActor.CreateActor(levelItem, mapLayer, player);
-                // TODO: will this work?
-                sa.Sound.PlayLooped();
+                SoundActor sa = SoundActor.CreateActor(levelItem);
             }
 
         }
