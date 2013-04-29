@@ -8,7 +8,7 @@ namespace Spiridios.LD26
     {
         public enum EventType
         {
-            Collision, Activate, OneShot
+            Collision, Activate, OneShot, Intruder
         };
 
         public SoundEventData(SceneLayer mapLayer, PlayerActor player, string soundName, Vector2 position)

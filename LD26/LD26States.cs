@@ -33,19 +33,24 @@ namespace Spiridios.LD26
             base.Draw(gameTime);
 
             int lineHeight = 40;
-            int numLines = 4;
+            int numLines = 6;
             int firstLine = (game.WindowHeight - (numLines * lineHeight)) / 2;
             game.DrawText("Conversion", TextRenderer.CENTERED, firstLine);
             game.DrawText("By Spiridios for Ludum Dare 26", TextRenderer.CENTERED, firstLine + (1 * lineHeight));
-            game.DrawText("Press Any Key To Start", TextRenderer.CENTERED, firstLine + (3 * lineHeight));
+            game.DrawText("Arrow keys move, space activates", TextRenderer.CENTERED, firstLine + (3 * lineHeight));
+            game.DrawText("Press space To Start", TextRenderer.CENTERED, firstLine + (5 * lineHeight));
             game.DrawFPS();
+
+            if (inputManager.IsTriggered("doStuff"))
+            {
+                game.NextState = new PlayGameState(game);
+                game.NextState.Initialize();
+            }
         }
 
         public override void KeyUp(KeyboardEvent keyState)
         {
             base.KeyUp(keyState);
-            game.NextState = new PlayGameState(game);
-            game.NextState.Initialize();
         }
 
         public override void KeyDown(KeyboardEvent keyState)
@@ -69,10 +74,13 @@ namespace Spiridios.LD26
         {
             base.Initialize();
 
+            ((LD26)SpiridiGame.Instance).IntruderDead = false;
+
             // Load any continents 
             this.game.ImageManager.AddImage("Player", "Player.png");
             this.game.ImageManager.AddImage("Tileset", "Tileset.png");
             this.game.ImageManager.AddImage("Sound", "Sound.png");
+            this.game.ImageManager.AddImage("Bullet", "Sound.png");
             SoundManager.Instance.AddSound("gunshot", "gunshot.wav");
 
             gameMap = new Scene(game);
@@ -85,7 +93,7 @@ namespace Spiridios.LD26
 
         private void SetupLevelData(SceneLayer mapLayer)
         {
-            player = new PlayerActor(this.inputManager);
+            player = new PlayerActor(this.inputManager, mapLayer);
             player.Position = new Vector2(20, 20);
             mapLayer.AddActor(player);
 
@@ -98,14 +106,14 @@ namespace Spiridios.LD26
 
             shuffleLoop.AddNextEvent(
             new SoundEventData(mapLayer, player, "breathing", new Vector2(90, 10))
-            .SetEventType(SoundEventData.EventType.Collision)
+            .SetEventType(SoundEventData.EventType.Intruder)
             .AddNextEvent(
             new SoundEventData(mapLayer, player, "shuffle", new Vector2(60, 40))
             .SetRepeat(false)
             .SetEventType(SoundEventData.EventType.OneShot)
             .AddNextEvent(
             new SoundEventData(mapLayer, player, "breathing", new Vector2(10, 180))
-            .SetEventType(SoundEventData.EventType.Collision)
+            .SetEventType(SoundEventData.EventType.Intruder)
             .AddNextEvent(shuffleLoop)
             )));
 
@@ -156,9 +164,104 @@ namespace Spiridios.LD26
             base.Update(gameTime);
             ((LD26)this.game).LastGameTime = gameTime;
             gameMap.Update(gameTime.ElapsedGameTime);
+            if (player.IsDead)
+            {
+                game.NextState = new DeadState(game);
+                game.NextState.Initialize();
+            }
+
+            if (((LD26)SpiridiGame.Instance).IntruderDead)
+            {
+                game.NextState = new WinState(game);
+                game.NextState.Initialize();
+            }
+
         }
 
     }
 
+    public class DeadState : State
+    {
+        public DeadState(SpiridiGame game)
+            : base(game)
+        {
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+
+            int lineHeight = 40;
+            int numLines = 6;
+            int firstLine = (game.WindowHeight - (numLines * lineHeight)) / 2;
+            game.DrawText("You slowly lose the feeling in your hands", TextRenderer.CENTERED, firstLine);
+            game.DrawText("before realizing you can't feel your feet", TextRenderer.CENTERED, firstLine + (1 * lineHeight));
+            game.DrawText("Your legs no longer hold you up", TextRenderer.CENTERED, firstLine + (2 * lineHeight));
+            game.DrawText("You sense you are falling before you feel the piercing pain", TextRenderer.CENTERED, firstLine + (3 * lineHeight));
+            game.DrawText("Game Over", TextRenderer.CENTERED, firstLine + (5 * lineHeight));
+            game.DrawFPS();
+        }
+
+        public override void KeyUp(KeyboardEvent keyState)
+        {
+            base.KeyUp(keyState);
+        }
+
+        public override void KeyDown(KeyboardEvent keyState)
+        {
+            base.KeyDown(keyState);
+        }
+    }
+
+    public class WinState : State
+    {
+        public WinState(SpiridiGame game)
+            : base(game)
+        {
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+
+            int lineHeight = 40;
+            int numLines = 4;
+            int firstLine = (game.WindowHeight - (numLines * lineHeight)) / 2;
+            game.DrawText("A body lay at your feet", TextRenderer.CENTERED, firstLine);
+            game.DrawText("But you are still alive", TextRenderer.CENTERED, firstLine + (1 * lineHeight));
+            game.DrawText("Game over", TextRenderer.CENTERED, firstLine + (3 * lineHeight));
+            game.DrawFPS();
+        }
+
+        public override void KeyUp(KeyboardEvent keyState)
+        {
+            base.KeyUp(keyState);
+        }
+
+        public override void KeyDown(KeyboardEvent keyState)
+        {
+            base.KeyDown(keyState);
+        }
+    }
 
 }
